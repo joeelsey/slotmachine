@@ -3,18 +3,36 @@
 var SlotMachine = function() {
   this.arr = ['Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Cherry', 'Cherry', 'Cherry', 'Cherry',
    'Orange', 'Orange', 'Orange', 'Bell', 'Bell', 'Bell', '$', '$', 'Jackpot'];
-  this.money = 2;
+  this.money = 100;
   document.getElementById('money').innerHTML = this.money;
+
 };
 
 SlotMachine.prototype.Turn = function() {
-  //The three wheels of the slot machine.
+
+   //The first row of the slot machine.
   this.wheel1 = this.arr[Math.floor(Math.random() * this.arr.length)];
   document.getElementById('wheel1').innerHTML = this.wheel1;
   this.wheel2 = this.arr[Math.floor(Math.random() * this.arr.length)];
   document.getElementById('wheel2').innerHTML = this.wheel2;
   this.wheel3 = this.arr[Math.floor(Math.random() * this.arr.length)];
   document.getElementById('wheel3').innerHTML = this.wheel3;
+
+  //The second row of the slot machine.
+  this.wheel4 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  document.getElementById('wheel4').innerHTML = this.wheel4;
+  this.wheel5 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  document.getElementById('wheel5').innerHTML = this.wheel5;
+  this.wheel6 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  document.getElementById('wheel6').innerHTML = this.wheel6;
+
+  //The third row of the slot machine.
+  this.wheel7 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  document.getElementById('wheel7').innerHTML = this.wheel7;
+  this.wheel8 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  document.getElementById('wheel8').innerHTML = this.wheel8;
+  this.wheel9 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  document.getElementById('wheel9').innerHTML = this.wheel9;
 
   //reward generator.
   this.reward = function() {
@@ -50,9 +68,9 @@ SlotMachine.prototype.Turn = function() {
           break;
       }
     } else {
-      this.loseMoney();
       document.getElementById('message').innerHTML = '<div>No Winner.</div>';
       console.log('No winner.');
+      this.loseMoney();
     }
   };
 

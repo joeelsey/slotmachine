@@ -37,26 +37,33 @@ SlotMachine.prototype.Turn = function() {
   //reward generator.
   this.reward = function() {
 
-    var rowOne = [this.wheel1, this.wheel2, this.wheel3];
-    var rowTwo = [this.wheel4, this.wheel5, this.wheel6];
-    var rowThree = [this.wheel7, this.wheel8, this.wheel9];
+    var rewardMarker = false;
+    this.wheelOne = false;
+    this.wheelTwo = false;
+    this.wheelThree = false;
 
     if (this.wheel1 === this.wheel2 && this.wheel1 === this.wheel3) {
+      rewardMarker = true;
+      this.wheelOne = true;
       this.addMoney();
       this.winnerMessage(this.wheel1);
     }
 
-    if(rowTwo[0] === rowTwo[1] && rowTwo[0] === rowTwo[2]) {
+    if(this.wheel4 === this.wheel5 && this.wheel4 === this.wheel6) {
+      rewardMarker = true;
+      this.wheelTwo = true;
       this.addMoney();
       this.winnerMessage(this.wheel4);
     }
 
-    if(rowThree[0] === rowThree[1] && rowThree[0] === rowThree[2]) {
+    if(this.wheel7 === this.wheel8 && this.wheel7 === this.wheel9) {
+      rewardMarker = true;
+      this.wheelThree = true;
       this.addMoney();
       this.winnerMessage(this.wheel7);
     }
 
-    if(this.wheel1 !== this.wheel2 && this.wheel4 !== this.wheel5 && this.wheel7 !== this.wheel8) {
+    if(rewardMarker === false) {
       document.getElementById('message').innerHTML = '<div>No Winner.</div>';
       console.log('No winner.');
       this.loseMoney();
@@ -97,12 +104,24 @@ SlotMachine.prototype.Turn = function() {
   };
 
   this.addMoney = function() {
-      if (this.wheel1 === 'Apple' || this.wheel4 === 'Apple' || this.wheel7 === 'Apple') {this.money += 1;}
-      if (this.wheel1 === 'Cherry' || this.wheel4 === 'Cherry' || this.wheel7 === 'Cherry') {this.money += 3;}
-      if (this.wheel1 === 'Orange' || this.wheel4 === 'Orange' || this.wheel7 === 'Orange') {this.money += 5;}
-      if (this.wheel1 === 'Bell' || this.wheel4 === 'Bell' || this.wheel7 === 'Bell') {this.money += 8;}
-      if (this.wheel1 === '$' || this.wheel4 === '$' || this.wheel7 === '$') {this.money += 16;}
-      if (this.wheel1 === 'Jackpot' || this.wheel4 === 'Jackpot' || this.wheel7 === 'Jackpot') {this.money += 100;}
+      if (this.wheel1 === 'Apple' && this.wheelOne === true
+       || this.wheel4 === 'Apple' && this.wheelTwo === true
+       || this.wheel7 === 'Apple' && this.wheelThree === true) {this.money += 1;}
+      if (this.wheel1 === 'Cherry' && this.wheelOne === true
+       || this.wheel4 === 'Cherry' && this.wheelTwo === true
+       || this.wheel7 === 'Cherry' && this.wheelThree === true) {this.money += 3;}
+      if (this.wheel1 === 'Orange' && this.wheelOne === true
+       || this.wheel4 === 'Orange' && this.wheelTwo === true
+       || this.wheel7 === 'Orange' && this.wheelThree === true) {this.money += 5;}
+      if (this.wheel1 === 'Bell' && this.wheelOne === true
+       || this.wheel4 === 'Bell' && this.wheelTwo === true
+       || this.wheel7 === 'Bell' && this.wheelThree === true) {this.money += 8;}
+      if (this.wheel1 === '$' && this.wheelOne === true
+        || this.wheel4 === '$' && this.wheelTwo === true
+        || this.wheel7 === '$' && this.wheelThree === true) {this.money += 16;}
+      if (this.wheel1 === 'Jackpot' && this.wheelOne === true
+        || this.wheel4 === 'Jackpot' && this.wheelTwo === true
+        || this.wheel7 === 'Jackpot' && this.wheelThree === true) {this.money += 100;}
   };
 
   this.loseMoney = function() {

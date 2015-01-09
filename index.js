@@ -36,9 +36,36 @@ SlotMachine.prototype.Turn = function() {
 
   //reward generator.
   this.reward = function() {
+
+    var rowOne = [this.wheel1, this.wheel2, this.wheel3];
+    var rowTwo = [this.wheel4, this.wheel5, this.wheel6];
+    var rowThree = [this.wheel7, this.wheel8, this.wheel9];
+
     if (this.wheel1 === this.wheel2 && this.wheel1 === this.wheel3) {
       this.addMoney();
-      switch (this.wheel1) {
+      this.winnerMessage(this.wheel1);
+    }
+
+    if(rowTwo[0] === rowTwo[1] && rowTwo[0] === rowTwo[2]) {
+      this.addMoney();
+      this.winnerMessage(this.wheel4);
+    }
+
+    if(rowThree[0] === rowThree[1] && rowThree[0] === rowThree[2]) {
+      this.addMoney();
+      this.winnerMessage(this.wheel7);
+    }
+
+    if(this.wheel1 !== this.wheel2 && this.wheel4 !== this.wheel5 && this.wheel7 !== this.wheel8) {
+      document.getElementById('message').innerHTML = '<div>No Winner.</div>';
+      console.log('No winner.');
+      this.loseMoney();
+    }
+  };
+
+  //message based on the matches.
+  this.winnerMessage = function(wheel) {
+     switch (wheel) {
         case 'Apple':
           console.log('Apples.  You win 1 dollar');
           document.getElementById('message').innerHTML = '<div>Apples.  You win 1 dollar</div>';
@@ -67,20 +94,15 @@ SlotMachine.prototype.Turn = function() {
           console.log('Error.');
           break;
       }
-    } else {
-      document.getElementById('message').innerHTML = '<div>No Winner.</div>';
-      console.log('No winner.');
-      this.loseMoney();
-    }
   };
 
   this.addMoney = function() {
-      if (this.wheel1 === 'Apple') {return this.money += 1;}
-      if (this.wheel1 === 'Cherry') {return this.money += 3;}
-      if (this.wheel1 === 'Orange') {return this.money += 5;}
-      if (this.wheel1 === 'Bell') {return this.money += 8;}
-      if (this.wheel1 === '$') {return this.money += 16;}
-      if (this.wheel1 === 'Jackpot') {return this.money += 100;}
+      if (this.wheel1 === 'Apple' || this.wheel4 === 'Apple' || this.wheel7 === 'Apple') {this.money += 1;}
+      if (this.wheel1 === 'Cherry' || this.wheel4 === 'Cherry' || this.wheel7 === 'Cherry') {this.money += 3;}
+      if (this.wheel1 === 'Orange' || this.wheel4 === 'Orange' || this.wheel7 === 'Orange') {this.money += 5;}
+      if (this.wheel1 === 'Bell' || this.wheel4 === 'Bell' || this.wheel7 === 'Bell') {this.money += 8;}
+      if (this.wheel1 === '$' || this.wheel4 === '$' || this.wheel7 === '$') {this.money += 16;}
+      if (this.wheel1 === 'Jackpot' || this.wheel4 === 'Jackpot' || this.wheel7 === 'Jackpot') {this.money += 100;}
   };
 
   this.loseMoney = function() {
@@ -91,29 +113,9 @@ SlotMachine.prototype.Turn = function() {
 
   this.reward();
   console.log(this.wheel1, this.wheel2, this.wheel3);
+  console.log(this.wheel4, this.wheel5, this.wheel6);
+  console.log(this.wheel7, this.wheel8, this.wheel9);
   document.getElementById('money').innerHTML = this.money;
-};
-
-//Work in progress
-SlotMachine.prototype.saveMoneyState = function() {
-  if (!supportsLocalStorage()) {
-    return false;
-  }
-  localStorage['game.start'] = gameInProgress;
-  localStorage['money.addmoney'] = this.money.add;
-  localStorage['money.subtractmoney'] = this.money.subtract;
-  return true;
-};
-
-//Work in progress
-SlotMachine.prototype.resumeGame = function() {
-  if (!supportsLocalStorage()) {
-    return false;
-  }
-  gameInProgress = (localStorage['game.start'] == 'true');
-  if (!gameInProgress) {
-    return false;
-  }
 };
 
 var pennyslot = new SlotMachine();

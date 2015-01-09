@@ -1,3 +1,5 @@
 .wheels {
   display: inline-block;
+  margin: auto;
+  position: relative;
 }

@@ -6,34 +6,20 @@ var SlotMachine = function() {
   ];
   this.money = 100;
   document.getElementById('money').innerHTML = this.money;
-
+  this.wheel = [
+    {number: null}, {number: 1, types: ''}, {number: 2, types: ''}, {number: 3, types: ''}, {number: 4, types: ''},
+    {number: 5, types: ''}, {number: 6, types: ''}, {number: 7, types: ''}, {number: 8, types: ''}, {number: 9, types: ''}
+  ];
 };
 
 SlotMachine.prototype.Turn = function() {
-
-  //The first row of the slot machine.
-  this.wheel1 = this.types[Math.floor(Math.random() * this.types.length)];
-  document.getElementById('wheel1').innerHTML = this.wheel1;
-  this.wheel2 = this.types[Math.floor(Math.random() * this.types.length)];
-  document.getElementById('wheel2').innerHTML = this.wheel2;
-  this.wheel3 = this.types[Math.floor(Math.random() * this.types.length)];
-  document.getElementById('wheel3').innerHTML = this.wheel3;
-
-  //The second row of the slot machine.
-  this.wheel4 = this.types[Math.floor(Math.random() * this.types.length)];
-  document.getElementById('wheel4').innerHTML = this.wheel4;
-  this.wheel5 = this.types[Math.floor(Math.random() * this.types.length)];
-  document.getElementById('wheel5').innerHTML = this.wheel5;
-  this.wheel6 = this.types[Math.floor(Math.random() * this.types.length)];
-  document.getElementById('wheel6').innerHTML = this.wheel6;
-
-  //The third row of the slot machine.
-  this.wheel7 = this.types[Math.floor(Math.random() * this.types.length)];
-  document.getElementById('wheel7').innerHTML = this.wheel7;
-  this.wheel8 = this.types[Math.floor(Math.random() * this.types.length)];
-  document.getElementById('wheel8').innerHTML = this.wheel8;
-  this.wheel9 = this.types[Math.floor(Math.random() * this.types.length)];
-  document.getElementById('wheel9').innerHTML = this.wheel9;
+  console.log('this', this);
+  
+  for (var i = 1; i <= 9; i++) {
+    this.wheel[i].number = i;
+    this.wheel[i].types = this.types[Math.floor(Math.random() * this.types.length)];
+    document.getElementById('wheel' + i).innerHTML = this.wheel[i].types;
+  }
 
   //reward generator.
   this.reward = function() {

@@ -1,7 +1,7 @@
 //'use strict';
 
 var SlotMachine = function() {
-  this.arr = ['Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Cherry', 'Cherry', 'Cherry', 'Cherry',
+  this.types = ['Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Cherry', 'Cherry', 'Cherry', 'Cherry',
     'Orange', 'Orange', 'Orange', 'Bell', 'Bell', 'Bell', '$', '$', 'Jackpot'
   ];
   this.money = 100;
@@ -12,27 +12,27 @@ var SlotMachine = function() {
 SlotMachine.prototype.Turn = function() {
 
   //The first row of the slot machine.
-  this.wheel1 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  this.wheel1 = this.types[Math.floor(Math.random() * this.types.length)];
   document.getElementById('wheel1').innerHTML = this.wheel1;
-  this.wheel2 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  this.wheel2 = this.types[Math.floor(Math.random() * this.types.length)];
   document.getElementById('wheel2').innerHTML = this.wheel2;
-  this.wheel3 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  this.wheel3 = this.types[Math.floor(Math.random() * this.types.length)];
   document.getElementById('wheel3').innerHTML = this.wheel3;
 
   //The second row of the slot machine.
-  this.wheel4 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  this.wheel4 = this.types[Math.floor(Math.random() * this.types.length)];
   document.getElementById('wheel4').innerHTML = this.wheel4;
-  this.wheel5 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  this.wheel5 = this.types[Math.floor(Math.random() * this.types.length)];
   document.getElementById('wheel5').innerHTML = this.wheel5;
-  this.wheel6 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  this.wheel6 = this.types[Math.floor(Math.random() * this.types.length)];
   document.getElementById('wheel6').innerHTML = this.wheel6;
 
   //The third row of the slot machine.
-  this.wheel7 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  this.wheel7 = this.types[Math.floor(Math.random() * this.types.length)];
   document.getElementById('wheel7').innerHTML = this.wheel7;
-  this.wheel8 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  this.wheel8 = this.types[Math.floor(Math.random() * this.types.length)];
   document.getElementById('wheel8').innerHTML = this.wheel8;
-  this.wheel9 = this.arr[Math.floor(Math.random() * this.arr.length)];
+  this.wheel9 = this.types[Math.floor(Math.random() * this.types.length)];
   document.getElementById('wheel9').innerHTML = this.wheel9;
 
   //reward generator.

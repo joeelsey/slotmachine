@@ -18,9 +18,9 @@ var Slotmachine = {
 
   //calls spinColumns three times.  Once for each column.
   turn: function() {
-    document.getElementById('winMessage').innerHTML += '<div> </div>';
+    document.getElementById('winMessage').innerHTML = '<div> </div>';
     this.assignRandomTypes();
-    this.spinColumns(3); //this way you could add a column by just adding another number...  Maybe not.
+    this.spinColumns(); //this way you could add a column by just adding another number...  Maybe not.
     this.loseMoney(); //you lose money with every spin
   },
 
@@ -35,11 +35,11 @@ var Slotmachine = {
 
   //Every three spins the comparison should stop and then another three spins at a higher index should start.
   //This should happen three times.
-  spinColumns: function(columnNumber) {
+  spinColumns: function() {
     var columnOneCounter = 0;
     var columnTwoCounter = 3;
-    var columnThreeCounter = 5;
-    for(var i = 0; i < columnNumber; i++) {
+    var columnThreeCounter = 6;
+    for(var i = 0; i < 1; i++) {
       columnOneCounter++;
       this.winnerValidator(columnOneCounter);
       this.loseValidator(columnOneCounter);
@@ -58,10 +58,8 @@ var Slotmachine = {
   winnerValidator: function(wheelNumber) {
     var winnerType,
         wheelColumnWinner;
-        console.log('win validator wheel number', wheelNumber);
     if (this.wheel[wheelNumber].types === this.wheel[wheelNumber + 1].types &&
         this.wheel[wheelNumber].types === this.wheel[wheelNumber + 2].types) {
-
 
       this.wheel[wheelNumber].column.winner = true;
       this.winnerMessage(this.wheel[wheelNumber].types);
@@ -76,8 +74,6 @@ var Slotmachine = {
   loseValidator: function(wheelNumber) {
     console.log('lose validator wheel number', wheelNumber);
     if (this.wheel[wheelNumber].column.winner === false) {
-        console.log('last wheel in lose validator', this.wheel[wheelNumber].number);
-      // console.log('no winner');
       document.getElementById('message').innerHTML = '<div>No Winner.</div>';
     } else {
       document.getElementById('message').innerHTML = '<div> </div>';

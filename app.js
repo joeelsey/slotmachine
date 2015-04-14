@@ -1,14 +1,16 @@
 var Slotmachine = {
-  types: ['Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Cherry', 'Cherry', 'Cherry', 'Cherry',
+  fruit: ['Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Cherry', 'Cherry', 'Cherry', 'Cherry',
     'Orange', 'Orange', 'Orange', 'Bell', 'Bell', 'Bell', '$', '$', 'Jackpot'],
   wheel: [
     {number: null},
-    {number: 1, types: '', column: {winner: false}}, {number: 2, types: '', column: {winner: false}},
-    {number: 3, types: '', column: {winner: false}}, {number: 4, types: '', column: {winner: false}},
-    {number: 5, types: '', column: {winner: false}}, {number: 6, types: '', column: {winner: false}},
-    {number: 7, types: '', column: {winner: false}}, {number: 8, types: '', column: {winner: false}},
-    {number: 9, types: '', column: {winner: false}}
+    {number: 1, fruit: '', column: {winner: false}}, {number: 2, fruit: '', column: {winner: false}},
+    {number: 3, fruit: '', column: {winner: false}}, {number: 4, fruit: '', column: {winner: false}},
+    {number: 5, fruit: '', column: {winner: false}}, {number: 6, fruit: '', column: {winner: false}},
+    {number: 7, fruit: '', column: {winner: false}}, {number: 8, fruit: '', column: {winner: false}},
+    {number: 9, fruit: '', column: {winner: false}}
   ],
+
+  wheelObject: [],
   money: 100,  //would love to make this user input at some point.  I.e. 'putting money in the machine'.
 
   //should display the money.  untested
@@ -19,17 +21,36 @@ var Slotmachine = {
   //calls spinColumns three times.  Once for each column.
   turn: function() {
     document.getElementById('winMessage').innerHTML = '<div> </div>';
-    this.assignRandomTypes();
     this.spinColumns(); //this way you could add a column by just adding another number...  Maybe not.
     this.loseMoney(); //you lose money with every spin
+    this.createWheelObject(3);
+    this.displayColumn(3);
   },
 
-  //assigns a random fruit type from the types array to each wheel object
-  assignRandomTypes: function() {
-    for (var i = 1; i <= 9; i++) {
-      this.wheel[i].number = i;
-      this.wheel[i].types = this.types[Math.floor(Math.random() * this.types.length)];
-      document.getElementById('wheel' + i).innerHTML = this.wheel[i].types;
+  //How many wheels do you want your slot machine to have.
+  createWheelObject: function(wheelNumber) {
+    this.wheelObject = [];
+    for (var i = 0; i < wheelNumber; i++) {
+      this.wheelObject.push({number: i + 1, fruit: this.fruit[Math.floor(Math.random() * this.fruit.length)]});
+      console.log('wheel objects', this.wheelObject);
+    }
+  },
+
+  // //assigns a random fruit type from the fruit array to each wheel object
+  // numberOfColumns: function() {
+  //   for (var i = 1; i <= 9; i++) {
+  //     this.wheel[i].number = i;
+  //     this.wheel[i].fruit = this.fruit[Math.floor(Math.random() * this.fruit.length)];
+  //     document.getElementById('wheel' + i).innerHTML = this.wheel[i].fruit;
+  //     // console.log('fruit assignment', this.wheel[i].fruit);
+  //   }
+  // },
+
+  displayColumn: function(wheelColumn) {
+    for (var i = 1; i <= wheelColumn; i++) {
+      console.log(i);
+      console.log('wheel assignment', this.wheelObject[i - 1].fruit);
+      document.getElementById('wheel' + i).innerHTML = this.wheelObject[i - 1].fruit;
     }
   },
 
@@ -54,25 +75,24 @@ var Slotmachine = {
     }
   },
 
-  //takes a wheel number and checks for matches of types.  Reward event if match happens.
+  //takes a wheel number and checks for matches of fruit.  Reward event if match happens.
   winnerValidator: function(wheelNumber) {
     var winnerType,
         wheelColumnWinner;
-    if (this.wheel[wheelNumber].types === this.wheel[wheelNumber + 1].types &&
-        this.wheel[wheelNumber].types === this.wheel[wheelNumber + 2].types) {
+    if (this.wheel[wheelNumber].fruit === this.wheel[wheelNumber + 1].fruit &&
+        this.wheel[wheelNumber].fruit === this.wheel[wheelNumber + 2].fruit) {
 
       this.wheel[wheelNumber].column.winner = true;
-      this.winnerMessage(this.wheel[wheelNumber].types);
+      this.winnerMessage(this.wheel[wheelNumber].fruit);
 
-      winnerType = this.wheel[wheelNumber].types;
-      wheelColumnWinner = this.wheel[wheelNumber].column.winner
+      winnerType = this.wheel[wheelNumber].fruit;
+      wheelColumnWinner = this.wheel[wheelNumber].column.winner;
       // this.addMoney(winnerType, wheelColumnWinner);
     }
   },
 
   //checks to see if the columns are losers.  If they all are then lose money and lose message.  If win remove lose message.
   loseValidator: function(wheelNumber) {
-    console.log('lose validator wheel number', wheelNumber);
     if (this.wheel[wheelNumber].column.winner === false) {
       document.getElementById('message').innerHTML = '<div>No Winner.</div>';
     } else {
@@ -115,9 +135,9 @@ var Slotmachine = {
 
   // addMoney: function(winnerType, wheelColumnWinner) {
   //   var  validateType = function (t, w) {
-  //     if (w.wheel[1].types === t && w.wheel.column.winner === true ||
-  //         w.wheel[4].types === t && w.wheel.column.winner === true ||
-  //         w.wheel[7].types === t && w.wheel.column.winner === true ) {
+  //     if (w.wheel[1].fruit === t && w.wheel.column.winner === true ||
+  //         w.wheel[4].fruit === t && w.wheel.column.winner === true ||
+  //         w.wheel[7].fruit === t && w.wheel.column.winner === true ) {
   //           return true;
   //     }
   //   }
@@ -127,29 +147,29 @@ var Slotmachine = {
   //   }
   //
   //
-  //   if (this.wheel[1].types === 'Cherry' && this.wheel.column.winner === true ||
-  //       this.wheel[4].types === 'Cherry' && this.wheel.column.winner === true ||
-  //       this.wheel[7].types === 'Cherry' && this.wheel.column.winner === true) {
+  //   if (this.wheel[1].fruit === 'Cherry' && this.wheel.column.winner === true ||
+  //       this.wheel[4].fruit === 'Cherry' && this.wheel.column.winner === true ||
+  //       this.wheel[7].fruit === 'Cherry' && this.wheel.column.winner === true) {
   //     this.money += 3;
   //   }
-  //   if (this.wheel[1].types === 'Orange' && this.wheel.column.winner === true ||
-  //       this.wheel[4].types === 'Orange' && this.wheel.column.winner === true ||
-  //       this.wheel[7].types === 'Orange' && this.wheel.column.winner === true) {
+  //   if (this.wheel[1].fruit === 'Orange' && this.wheel.column.winner === true ||
+  //       this.wheel[4].fruit === 'Orange' && this.wheel.column.winner === true ||
+  //       this.wheel[7].fruit === 'Orange' && this.wheel.column.winner === true) {
   //     this.money += 5;
   //   }
-  //   if (this.wheel[1].types === 'Bell' && this.wheel.column.winner === true ||
-  //       this.wheel[4].types === 'Bell' && this.wheel.column.winner === true ||
-  //       this.wheel[7].types === 'Bell' && this.wheel.column.winner === true) {
+  //   if (this.wheel[1].fruit === 'Bell' && this.wheel.column.winner === true ||
+  //       this.wheel[4].fruit === 'Bell' && this.wheel.column.winner === true ||
+  //       this.wheel[7].fruit === 'Bell' && this.wheel.column.winner === true) {
   //     this.money += 8;
   //   }
-  //   if (this.wheel[1].types === '$' && this.wheel.column.winner === true ||
-  //       this.wheel[4].types === '$' && this.wheel.column.winner === true ||
-  //       this.wheel[7].types === '$' && this.wheel.column.winner === true) {
+  //   if (this.wheel[1].fruit === '$' && this.wheel.column.winner === true ||
+  //       this.wheel[4].fruit === '$' && this.wheel.column.winner === true ||
+  //       this.wheel[7].fruit === '$' && this.wheel.column.winner === true) {
   //     this.money += 16;
   //   }
-  //   if (this.wheel[1].types === 'Jackpot' && this.wheel.column.winner === true ||
-  //       this.wheel[4].types === 'Jackpot' && this.wheel.column.winner === true ||
-  //       this.wheel[7].types === 'Jackpot' && this.wheel.column.winner === true) {
+  //   if (this.wheel[1].fruit === 'Jackpot' && this.wheel.column.winner === true ||
+  //       this.wheel[4].fruit === 'Jackpot' && this.wheel.column.winner === true ||
+  //       this.wheel[7].fruit === 'Jackpot' && this.wheel.column.winner === true) {
   //     this.money += 100;
   //   }
   // },

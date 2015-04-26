@@ -4,30 +4,34 @@ var Slotmachine = {
 
   wheels: [],
 
+  winnerBracket: [],
+
   bank: 100,
 
   bets: 0,
 
+  //main method.  passes a number of bets
   turn: function() {
     this.numberOfBets(3);
-    console.log('wheels', this.wheels);
   },
 
+  //takes the number of bets and passes that to createWheels, countAcrossRows, and adds to global bets
   numberOfBets: function(bets) {
-    this.createWheels(bets);
+    this.createWheels(3);
     this.countAcrossRows(bets);
     this.bets += bets;
   },
 
-  createColumn: function() {
+  createWheels: function(numberOfWheels) {
     for(var i = 0; i < 3; i++) {
-      this.wheels.push({number: this.wheels.length + 1, fruit: this.FRUIT[Math.floor(Math.random() * this.FRUIT.length)]});
+      this.createColumn(numberOfWheels);
     }
   },
 
-  createWheels: function(numberOfWheels) {
-    for(var i = 0; i < numberOfWheels; i++) {
-      this.createColumn();
+  //creates wheels of fruit types
+  createColumn: function(wheels) {
+    for(var i = 0; i < wheels; i++) {
+      this.wheels.push({number: this.wheels.length + 1, fruit: this.FRUIT[Math.floor(Math.random() * this.FRUIT.length)]});
     }
   },
 
@@ -46,55 +50,69 @@ var Slotmachine = {
                              slotNumberTwo: this.wheels[rowTwoCounter - 1].fruit,
                              slotNumberThree: this.wheels[rowThreeCounter - 1].fruit});
     }
+    console.log('wheels', this.wheels);
+    console.log('slot number array', slotNumbersArray);
     this.winnerValidation(slotNumbersArray);
   },
 
   winnerValidation: function(slotNumbers) {
     for(var i = 0; i < slotNumbers.length; i++) {
-      console.log(slotNumbers[i].slotNumberOne, slotNumbers[i].slotNumberTwo, slotNumbers[i].slotNumberThree);
+      console.log('Slotmachine: ',slotNumbers[i].slotNumberOne, slotNumbers[i].slotNumberTwo, slotNumbers[i].slotNumberThree);
       if(slotNumbers[i].slotNumberOne === slotNumbers[i].slotNumberTwo &&
          slotNumbers[i].slotNumberOne === slotNumbers[i].slotNumberThree) {
-           this.winnerReward(this.bets);
            this.winnerMessage(slotNumbers[i].slotNumberOne);
-         } else {
-           this.loserReward(this.bets);
+           this.winnerBracket.push({slotNumbers: i});
          }
     }
+
+    return this.winnerBracket;
   },
 
-  winnerReward: function(bets) {
-    this.bank += bets;
+  winnerReward: function(fruit) {
+    this.bank += this.bets;
+    console.log('this bank winner', this.bank, fruit);
   },
-
-  loserReward: function(bets) {
-    this.bank -= bets;
-  },
-
+  //
+  // loserReward: function(bets) {
+  //   var loserMessage = 'no winner';
+  //   this.bank -= this.bets;
+  //
+  //   if(this.winnerBracket.length === 0) {
+  //     console.log(loserMessage);
+  //   }
+  // },
+  //
   winnerMessage: function(wheel) {
     switch (wheel) {
       case 'Apple':
+        this.winnerReward('Apple');
         console.log('Apples.  You win 1 dollar');
         break;
       case 'Cherry':
+        this.winnerReward('Cherry');
         console.log('Cherries. You win 3 dollars');
         break;
       case 'Orange':
+        this.winnerReward('Orange');
         console.log('Oranges. You win 5 dollars');
         break;
       case 'Bell':
+        this.winnerReward('Bell');
         console.log('Bells. You win 8 dollars');
         break;
       case '$':
+        this.winnerReward('$');
         console.log('Dollars.  You win 16 dollars');
         break;
       case 'Jackpot':
+        this.winnerReward('Jackpot');
         console.log('Jackpot!  You win the jackpot!');
         break;
       default:
         console.log('Error.', wheel);
         break;
     }
-  },
+  }
 
 };
 

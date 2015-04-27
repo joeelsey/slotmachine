@@ -56,52 +56,64 @@ var Slotmachine = {
 
   //checks each row to see if there are matching fruit types.
   winnerValidation: function(slotNumbers) {
-    var winnerFruit = 'lose';
+    var winnerFruit = [];
     console.log('slotnumbers: ', slotNumbers);
-    for(var i = 0; i < slotNumbers.length; i++) {
+    for (var i = 0; i < slotNumbers.length; i++) {
       console.log('Slotmachine: ',slotNumbers[i].slotNumberOne, slotNumbers[i].slotNumberTwo, slotNumbers[i].slotNumberThree);
-      if(slotNumbers[i].slotNumberOne === slotNumbers[i].slotNumberTwo &&
+      if (slotNumbers[i].slotNumberOne === slotNumbers[i].slotNumberTwo &&
          slotNumbers[i].slotNumberOne === slotNumbers[i].slotNumberThree) {
-           winnerFruit = slotNumbers[i].slotNumberOne;
+          //  winnerFruit = slotNumbers[i].slotNumberOne;
+           winnerFruit.push(slotNumbers[i].slotNumberOne);
            this.winnerBracket.push({slotNumbers: i + 1});
          }
     }
     this.winnerMessage(winnerFruit);
-    console.log('winner bracket', this.winnerBracket);
+    //console.log('winner bracket', this.winnerBracket);
   },
 
   winnerMessage: function(wheel) {
-    switch (wheel) {
-      case 'Apple':
-        this.winnerReward('Apple');
-        console.log('Apples.  You win 1 dollar');
-        break;
-      case 'Cherry':
-        this.winnerReward('Cherry');
-        console.log('Cherries. You win 3 dollars');
-        break;
-      case 'Orange':
-        this.winnerReward('Orange');
-        console.log('Oranges. You win 5 dollars');
-        break;
-      case 'Bell':
-        this.winnerReward('Bell');
-        console.log('Bells. You win 8 dollars');
-        break;
-      case '$':
-        this.winnerReward('$');
-        console.log('Dollars.  You win 16 dollars');
-        break;
-      case 'Jackpot':
-        this.winnerReward('Jackpot');
-        console.log('Jackpot!  You win the jackpot!');
-        break;
-      case 'lose':
-        this.loserMessage();
-        break;
-      default:
-        console.log('Error.', wheel);
-        break;
+    var winnerMessage = [];
+    for (var i = 0; i < wheel.length; i++) {
+      switch (wheel[i]) {
+        case 'Apple':
+          this.winnerReward('Apple');
+          winnerMessage.push('Apples.  You win 1 dollar. ');
+          break;
+        case 'Cherry':
+          this.winnerReward('Cherry');
+          winnerMessage.push('Cherries. You win 3 dollars. ');
+          break;
+        case 'Orange':
+          this.winnerReward('Orange');
+          winnerMessage.push('Oranges. You win 5 dollars. ');
+          break;
+        case 'Bell':
+          this.winnerReward('Bell');
+          winnerMessage.push('Bells. You win 8 dollars. ');
+          break;
+        case '$':
+          this.winnerReward('$');
+          winnerMessage.push('Dollars.  You win 16 dollars. ');
+          break;
+        case 'Jackpot':
+          this.winnerReward('Jackpot');
+          winnerMessage.push('Jackpot!  You win the jackpot! ');
+          break;
+        case 'lose':
+          this.loserMessage();
+          break;
+        default:
+          console.log('Error.', wheel);
+          break;
+      }
+    }
+
+    if (winnerMessage.length) {
+      for (var j = 0; j < winnerMessage.length; j++) {
+        console.log(winnerMessage[j]);
+      }
+    } else {
+      console.log('No winners this time.');
     }
   },
 

@@ -2,4 +2,33 @@
   display: inline-block;
   margin: auto;
   position: relative;
+  width: 200px;
+  padding: 5px 0 5px 0;
+}
+
+.slothandle {
+  display: block;
+}
+
+.wheelbank {
+  display: inline-flex;
+}
+
+#message {
+  margin: 5px 0 5px 0;
+}
+
+#wheel1 {
+  word-wrap: break-word;
+  width: 60px;
+}
+
+#wheel2 {
+  word-wrap: break-word;
+  width: 60px;
+}
+
+#wheel3 {
+  word-wrap: break-word;
+  width: 60px;
 }

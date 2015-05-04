@@ -1,12 +1,12 @@
 var Slotmachine = {
   FRUIT: ['Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Cherry', 'Cherry', 'Cherry', 'Cherry',
-    'Orange', 'Orange', 'Orange', 'Bell', 'Bell', 'Bell', '$', '$', 'Jackpot'],
+    'Orange', 'Orange', 'Orange', 'Bells', 'Bells', 'Bells', '$$$$$', '$$$$$', 'Jackpot'],
 
   wheels: [],
 
   winnerBracket: [], //pushes the bracket that won into this array.  I feel like I'm going to need this in the future.
 
-  bank: 100,
+  bank: 300,
 
   bets: 0,
 
@@ -52,6 +52,7 @@ var Slotmachine = {
                              slotNumberThree: this.wheels[l - 1].fruit});
     }
     this.winnerValidation(slotNumbersArray);
+    this.setWheelsToElement(slotNumbersArray);
   },
 
   //checks each row to see if there are matching fruit types.
@@ -62,13 +63,12 @@ var Slotmachine = {
       console.log('Slotmachine: ',slotNumbers[i].slotNumberOne, slotNumbers[i].slotNumberTwo, slotNumbers[i].slotNumberThree);
       if (slotNumbers[i].slotNumberOne === slotNumbers[i].slotNumberTwo &&
          slotNumbers[i].slotNumberOne === slotNumbers[i].slotNumberThree) {
-          //  winnerFruit = slotNumbers[i].slotNumberOne;
            winnerFruit.push(slotNumbers[i].slotNumberOne);
            this.winnerBracket.push({slotNumbers: i + 1});
          }
     }
     this.winnerMessage(winnerFruit);
-    //console.log('winner bracket', this.winnerBracket);
+    this.wheels = [];
   },
 
   winnerMessage: function(wheel) {
@@ -88,19 +88,16 @@ var Slotmachine = {
           winnerMessage.push('Oranges. You win 5 dollars. ');
           break;
         case 'Bell':
-          this.winnerReward('Bell');
+          this.winnerReward('Bells');
           winnerMessage.push('Bells. You win 8 dollars. ');
           break;
         case '$':
-          this.winnerReward('$');
+          this.winnerReward('$$$$$');
           winnerMessage.push('Dollars.  You win 16 dollars. ');
           break;
         case 'Jackpot':
           this.winnerReward('Jackpot');
           winnerMessage.push('Jackpot!  You win the jackpot! ');
-          break;
-        case 'lose':
-          this.loserMessage();
           break;
         default:
           console.log('Error.', wheel);
@@ -109,11 +106,15 @@ var Slotmachine = {
     }
 
     if (winnerMessage.length) {
+      document.getElementById('message').innerHTML = '';
       for (var j = 0; j < winnerMessage.length; j++) {
         console.log(winnerMessage[j]);
+        document.getElementById('message').innerHTML += winnerMessage[j];
       }
     } else {
       console.log('No winners this time.');
+      document.getElementById('message').innerHTML = '';
+      this.loserMessage();
     }
   },
 
@@ -147,9 +148,24 @@ var Slotmachine = {
 
   loserMessage: function() {
     var loserMessage = 'no winner';
-    if(this.winnerBracket.length === 0) {
-      console.log(loserMessage);
+    console.log(loserMessage);
+    document.getElementById('message').innerHTML = loserMessage;
+    if(this.bank === 0) {
+      console.log('The House always wins.');
+      document.getElementById('message').innerHTML += loserMessage;
     }
+  },
+
+  //pushes wheels to dom.  Currently limited to 3 wheels.
+  setWheelsToElement: function(wheels) {
+    document.getElementById('wheel1').innerHTML = '';
+    document.getElementById('wheel2').innerHTML = '';
+    document.getElementById('wheel3').innerHTML = '';
+    wheels.map(function(wheel, index) {
+      document.getElementById('wheel1').innerHTML += wheel.slotNumberOne +  ' ';
+      document.getElementById('wheel2').innerHTML += wheel.slotNumberTwo +  ' ';
+      document.getElementById('wheel3').innerHTML += wheel.slotNumberThree +  ' ';
+    });
   }
 
 };

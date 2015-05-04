@@ -13,6 +13,7 @@ var Slotmachine = {
   //main method.  passes a number of bets. minimum of three.
   turn: function() {
     this.numberOfBets(3);
+    console.log('this bets', this.bets);
   },
 
   //takes the number of bets and passes that to createWheels, countAcrossRows, and adds to global bets
@@ -21,8 +22,6 @@ var Slotmachine = {
     this.countAcrossRows(bets);
     this.bets += bets;
     this.bank -= bets;
-
-    console.log('Your bet: ',bets, 'Your bank: ', this.bank);
   },
 
   //passes the number of wheels to create column and calls the function three times.
@@ -69,6 +68,7 @@ var Slotmachine = {
     }
     this.winnerMessage(winnerFruit);
     this.wheels = [];
+
   },
 
   winnerMessage: function(wheel) {
@@ -77,27 +77,27 @@ var Slotmachine = {
       switch (wheel[i]) {
         case 'Apple':
           this.winnerReward('Apple');
-          winnerMessage.push('Apples.  You win 1 dollar. ');
+          winnerMessage.push('Apples.  You win ' + (1 * this.bets) + ' dollars. ');
           break;
         case 'Cherry':
           this.winnerReward('Cherry');
-          winnerMessage.push('Cherries. You win 3 dollars. ');
+          winnerMessage.push('Cherries. You win ' + ( 3 * this.bets) + ' dollars. ');
           break;
         case 'Orange':
           this.winnerReward('Orange');
-          winnerMessage.push('Oranges. You win 5 dollars. ');
+          winnerMessage.push('Oranges. You win ' + (5 * this.bets) + ' dollars. ');
           break;
-        case 'Bell':
+        case 'Bells':
           this.winnerReward('Bells');
-          winnerMessage.push('Bells. You win 8 dollars. ');
+          winnerMessage.push('Bells. You win ' + (8 * this.bets) + ' dollars. ');
           break;
         case '$':
           this.winnerReward('$$$$$');
-          winnerMessage.push('Dollars.  You win 16 dollars. ');
+          winnerMessage.push('Dollars.  You win ' + (16 * this.bets) + ' dollars. ');
           break;
         case 'Jackpot':
           this.winnerReward('Jackpot');
-          winnerMessage.push('Jackpot!  You win the jackpot! ');
+          winnerMessage.push('Jackpot!  You win the jackpot! ' + (100 * this.bets) + ' dollars!');
           break;
         default:
           console.log('Error.', wheel);
@@ -119,25 +119,24 @@ var Slotmachine = {
   },
 
   winnerReward: function(fruit) {
-    this.bank += this.bets;
     switch (fruit) {
       case 'Apple':
-        this.bank += 1;
+        this.bank += this.bets * 1;
         break;
       case 'Cherry':
-        this.bank += 3;
+        this.bank += this.bets * 3;
         break;
       case 'Orange':
-        this.bank += 5;
+        this.bank += this.bets * 5;
         break;
-      case 'Bell':
-        this.bank += 8;
+      case 'Bells':
+        this.bank += this.bets * 8;
         break;
       case '$':
-        this.bank += 16;
+        this.bank += this.bets * 16;
         break;
       case 'Jackpot':
-        this.bank += 100;
+        this.bank += this.bets * 100;
         break;
       default:
         console.log('there was an error in the winner reward switch');
@@ -156,7 +155,7 @@ var Slotmachine = {
     }
   },
 
-  //pushes wheels to dom.  Currently limited to 3 wheels.
+  //pushes data to dom.  Currently limited to 3 wheels and the bank.
   setWheelsToElement: function(wheels) {
     document.getElementById('wheel1').innerHTML = '';
     document.getElementById('wheel2').innerHTML = '';
@@ -166,6 +165,8 @@ var Slotmachine = {
       document.getElementById('wheel2').innerHTML += wheel.slotNumberTwo +  ' ';
       document.getElementById('wheel3').innerHTML += wheel.slotNumberThree +  ' ';
     });
+    document.getElementById('bank').innerHTML = this.bank;
+    this.bets = 0;
   }
 
 };
